@@ -470,17 +470,17 @@ def main(args):
             if cur_class_images < args.num_class_images:
                 torch_dtype = torch.float16 if accelerator.device.type == "cuda" else torch.float32
                 if pipeline is None:
+                    vae = AutoencoderKL.from_pretrained(
+                        args.pretrained_vae_name_or_path or args.pretrained_model_name_or_path,
+                        subfolder=None if args.pretrained_vae_name_or_path else "vae",
+                        revision=None if args.pretrained_vae_name_or_path else args.revision,
+                        torch_dtype=torch_dtype
+                    )
                     pipeline = StableDiffusionPipeline.from_pretrained(
                         args.pretrained_model_name_or_path,
-                        vae=AutoencoderKL.from_pretrained(
-                            args.pretrained_vae_name_or_path or args.pretrained_model_name_or_path,
-                            subfolder=None if args.pretrained_vae_name_or_path else "vae",
-                            revision=None if args.pretrained_vae_name_or_path else args.revision,
-                            torch_dtype=torch_dtype
-                        ),
+                        vae=vae,
                         torch_dtype=torch_dtype,
-                        safety_checker=None,
-                        revision=args.revision
+                        safety_checker=None
                     )
                     pipeline.scheduler = DDIMScheduler.from_config(pipeline.scheduler.config)
                     if is_xformers_available():
