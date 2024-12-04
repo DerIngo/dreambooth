@@ -536,7 +536,7 @@ def main(args):
     )
     unet = UNet2DConditionModel.from_pretrained(
         args.pretrained_model_name_or_path,
-        subfolder="unet,
+        subfolder="unet",
         torch_dtype=torch.float32
     )
 
