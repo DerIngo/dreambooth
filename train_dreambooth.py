@@ -517,31 +517,26 @@ def main(args):
     # Load the tokenizer
     if args.tokenizer_name:
         tokenizer = CLIPTokenizer.from_pretrained(
-            args.tokenizer_name,
-            revision=args.revision,
+            args.tokenizer_name
         )
     elif args.pretrained_model_name_or_path:
         tokenizer = CLIPTokenizer.from_pretrained(
             args.pretrained_model_name_or_path,
-            subfolder="tokenizer",
-            revision=args.revision,
+            subfolder="tokenizer"
         )
 
     # Load models and create wrapper for stable diffusion
     text_encoder = CLIPTextModel.from_pretrained(
         args.pretrained_model_name_or_path,
-        subfolder="text_encoder",
-        revision=args.revision,
+        subfolder="text_encoder"
     )
     vae = AutoencoderKL.from_pretrained(
         args.pretrained_model_name_or_path,
-        subfolder="vae",
-        revision=args.revision,
+        subfolder="vae"
     )
     unet = UNet2DConditionModel.from_pretrained(
         args.pretrained_model_name_or_path,
-        subfolder="unet",
-        revision=args.revision,
+        subfolder="unet,
         torch_dtype=torch.float32
     )
 
