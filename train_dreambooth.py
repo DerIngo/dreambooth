@@ -472,8 +472,7 @@ def main(args):
                 if pipeline is None:
                     vae = AutoencoderKL.from_pretrained(
                         args.pretrained_vae_name_or_path or args.pretrained_model_name_or_path,
-                        subfolder=None if args.pretrained_vae_name_or_path else "vae",
-                        revision=None if args.pretrained_vae_name_or_path else args.revision,
+                        subfolder=None if args.pretrained_vae_name_or_path else "vae"
                         torch_dtype=torch_dtype
                     )
                     pipeline = StableDiffusionPipeline.from_pretrained(
@@ -714,19 +713,17 @@ def main(args):
             if args.train_text_encoder:
                 text_enc_model = accelerator.unwrap_model(text_encoder, keep_fp32_wrapper=True)
             else:
-                text_enc_model = CLIPTextModel.from_pretrained(args.pretrained_model_name_or_path, subfolder="text_encoder", revision=args.revision)
+                text_enc_model = CLIPTextModel.from_pretrained(args.pretrained_model_name_or_path, subfolder="text_encoder")
             pipeline = StableDiffusionPipeline.from_pretrained(
                 args.pretrained_model_name_or_path,
                 unet=accelerator.unwrap_model(unet, keep_fp32_wrapper=True),
                 text_encoder=text_enc_model,
                 vae=AutoencoderKL.from_pretrained(
                     args.pretrained_vae_name_or_path or args.pretrained_model_name_or_path,
-                    subfolder=None if args.pretrained_vae_name_or_path else "vae",
-                    revision=None if args.pretrained_vae_name_or_path else args.revision,
+                    subfolder=None if args.pretrained_vae_name_or_path else "vae"
                 ),
                 safety_checker=None,
-                torch_dtype=torch.float16,
-                revision=args.revision,
+                torch_dtype=torch.float16
             )
             pipeline.scheduler = DDIMScheduler.from_config(pipeline.scheduler.config)
             if is_xformers_available():
