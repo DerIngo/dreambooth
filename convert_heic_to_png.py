@@ -2,8 +2,8 @@ from PIL import Image
 from pillow_heif import register_heif_opener
 import os
 
-input_folder = "/mnt/d/dev/stablediffusion"
-output_folder = "/mnt/d/dev/stablediffusion/output"
+input_folder = "input"
+output_folder = "output"
 
 if not os.path.exists(output_folder):
     os.makedirs(output_folder)
